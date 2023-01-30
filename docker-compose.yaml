@@ -1,0 +1,69 @@
+version: '3.8'
+services:
+  api:
+    build: 
+     context: ./API
+     dockerfile: Dockerfile.Development      
+    #stdin_open: true
+    #tty: true    
+    volumes:
+      - ./API:/API
+      #dotnet dev-certs https -ep  security\aspnetapp.pfx -p <CREDENTIAL_PLACEHOLDER>      
+      - ./security:/https
+    ports:
+      - 80:80
+      - 5001:5001
+      - 5002:5002
+    env_file:
+      - ./env/api.env 
+      #ASPNETCORE_Kestrel__Certificates__Default__Password=<CREDENTIAL_PLACEHOLDER>
+      #ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx    
+    depends_on:
+      - sqlserver    
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 1434:1433
+    volumes:
+      - sqldatavolume:/var/opt/mssql/
+    env_file:
+      - ./env/mssql.env
+    container_name: mssql
+   
+
+# utility services 
+  dotnet:
+    build: 
+      context: ./
+      dockerfile: dockerfiles/dotnet.util.dockerfile
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/DatingApp
+  dotnet-ef:
+    build: 
+      context: ./
+      dockerfile: dockerfiles/dotnet_ef.util.dockerfile
+    stdin_open: true
+    tty: true
+    env_file:
+      - ./env/api.env 
+    volumes:
+      - ./:/DatingApp
+    entrypoint: "dotnet ef"    
+    depends_on:
+      - sqlserver
+  ng:
+    build:
+      context: ./
+      dockerfile: dockerfiles/ng.util.dockerfile
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./:/DatingApp
+volumes:
+  sqldatavolume:
+
+ 
+    
+  
