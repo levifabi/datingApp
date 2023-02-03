@@ -33,6 +33,7 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
+      - ./client/ssl:/app/ssl
     depends_on:
       - api
   sqlserver:
@@ -75,7 +76,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - ./:/DatingApp
+      - ./client:/client
   npm:
     build:
       context: ./
