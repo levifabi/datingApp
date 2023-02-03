@@ -478,3 +478,9 @@ $RECYCLE.BIN/
 env
 security
 API/appsettings.json
+.vscode/settings.json
+client/.vscode/extensions.json
+client/.vscode/launch.json
+client/.vscode/tasks.json
+client/.vscode/extensions.json
+client/.vscode/launch.json
