@@ -57,6 +57,7 @@ services:
     volumes:
       - ./:/DatingApp
   dotnet-ef:
+  # docker compose run --rm -i dotnet-ef --project API  database update   
     build: 
       context: ./
       dockerfile: dockerfiles/dotnet_ef.util.dockerfile
