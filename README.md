@@ -1,2 +1,2 @@
 # datingApp
-Learning dotnetCore 
+Try out dotnetCore technologies 
